@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent (typeof (PlayerController))]
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 5.0f;
+    public float moveSpeed = 3.0f;
     // moveVelocity를 다른 스크립트인 PlayerController로 전달해서 물리적인 부분들을 처리할 수 있도록 할 것
     // 그래서 PlayerController에 대한 레퍼런스를 가져와야합니다.
     PlayerController controller;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
         // 수평(Horizontal) 과 수직(Vertical) 방향에 대한 입력을 받고 싶으니
         // Input. 을 적고 GetAxis()를 호출해서 "Horizontal"을 넣습니다.
         // y값은 내버려 둬도 되며(0), 일정한 속도로 앞으로 가도록 moveSpeed를 넣어줬다.
-        Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, moveSpeed);
+        Vector3 moveInput = new Vector3(Input.GetAxisRaw("Horizontal")*moveSpeed, 0, moveSpeed);
         // 입력 받은 값을 방향으로 변환하고 움직임 속도를 곱할 겁니다.
         // 입력의 방향을 얻기 위해 moveInput를 정규화(nomalized)하여 가져옵니다 (nomarlized는 방향을 가리키는 단위벡터로 만드는 연산)
         // 거기에 moveSpeed를 곱해줍니다
