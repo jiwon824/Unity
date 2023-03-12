@@ -5,17 +5,25 @@ public class CameraController : MonoBehaviour
     private Transform target;
     private Vector3 offset;
 
+    float lerpTime = 0.6f;
+    float currentTime = 0;
+
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        // 카메라위치-플레이어의 위치
         offset = transform.position - target.position;
     }
 
     void LateUpdate()
     {
-        // 카메라의 x, y는 처음 위치 그대로 두고, 
+        // currentTime은 시간 흐름에 따라 증가함
+        currentTime += Time.deltaTime;
+        // 이 코드를 넣어주면 0부터 증가하다가 최대 0.5(lerpTime)까지만 증가함
+        if (currentTime >= lerpTime) currentTime = lerpTime;
+        float t = currentTime / lerpTime;
+
+        // 플레이어 이동에 따라 변하는 카메라 위치
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, offset.z + target.position.z);
-        transform.position = newPosition;
+        transform.position = Vector3.Lerp(transform.position, newPosition, t);
     }
 }
