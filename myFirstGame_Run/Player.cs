@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     public void Die()
     {
         dead = true;
-        Time.timeScale = 0;
+        GameObject.Destroy(gameObject);
     }
 
 }
