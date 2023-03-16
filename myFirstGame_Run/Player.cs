@@ -7,6 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class Player : MonoBehaviour
 {
+    public enum State { playing, gameclear, gameover };
+    State currentState;
     public float moveSpeed = 3.0f;
     protected bool dead;
 
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-
+        currentState = State.playing;
     }
 
     void Awake()
@@ -26,7 +28,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!dead)
+        if (currentState==State.playing)
         {
             // Movement input 플레이어의 움직임을 입력 받는 것
             // 수평(Horizontal) 과 수직(Vertical) 방향에 대한 입력을 받고 싶으니
@@ -45,6 +47,7 @@ public class Player : MonoBehaviour
     public void Die()
     {
         dead = true;
+        currentState = State.gameover;
         GameObject.Destroy(gameObject);
     }
 
