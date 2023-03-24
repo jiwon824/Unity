@@ -5,9 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    public enum State { playing, gameclear, gameover };
-    State currentState;
-
+    
     Vector3 velocity; // velocity의 뜻: speed+direction
     Rigidbody myRigidbody;
 
@@ -15,7 +13,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
-        currentState = State.playing;
+        
     }
     // Player에서 들어온 입력으로 계산한 velocity를
     // PlayerController의 velocity변수에 저의

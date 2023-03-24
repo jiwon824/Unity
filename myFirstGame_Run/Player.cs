@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     // moveVelocity를 다른 스크립트인 PlayerController로 전달해서 물리적인 부분들을 처리할 수 있도록 할 것
     // 그래서 PlayerController에 대한 레퍼런스를 가져와야합니다.
     PlayerController controller;
+    public GameManager manager;
 
     void Start()
     {
@@ -44,11 +45,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Clear()
+    {
+        currentState = State.gameclear;
+        GameObject.Destroy(gameObject);
+    }
+
     public void Die()
     {
+        // 죽었으니까 dead를 true로 변경
         dead = true;
         currentState = State.gameover;
+        // 게임 매니저의 GameOver함수 호출
+        manager.GameOver();
+        // 플레이어 오브젝트를 삭제
         GameObject.Destroy(gameObject);
+        
     }
 
 }
