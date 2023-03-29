@@ -24,12 +24,6 @@ public class GameUI : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     // UI Input
     // RESTART 버튼을 눌렀을 때 현재 씬 다시 시작
     public void OnClick_Restart()
