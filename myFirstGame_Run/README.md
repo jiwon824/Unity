@@ -3,7 +3,7 @@
 <p>공부하면서 배우거나 깨닫는 것은 티스토리에 올릴 예정입니다.</p>
 <p>https://im-your-supporter.tistory.com</p>
 <ul>
-          <strong>각 스크립트의 역할(A-Z순)</strong>
+          각 스크립트의 역할(A-Z순)
           <li> AudioManager.cs </li>
           <p>사운드를 관리</p>
           <li> CameraController.cs </li>
