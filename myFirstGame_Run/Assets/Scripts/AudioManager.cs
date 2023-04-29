@@ -144,10 +144,14 @@ public class AudioManager : MonoBehaviour
 		sfx2DSource.PlayOneShot(library.GetClipFromName(soundName), sfxVolumePercent * masterVolumePercent);
 	}
 
+	// 게임이 종료 되었을 때 (게임 클리어/게임오버) 음악을 멈추는 함수 
 	public void StopMusic()
 	{
 		backgorundMusic.Stop();
 	}
+
+	// 뮤트 토글이 체크 되었을 때 해당 소리가 안 들리도록 만드는 함수
+
 
 	// AnimateMusicCrossfade 기능이 정확히 어떤 건지 모르겠어서 일단 주석처리
 	/*

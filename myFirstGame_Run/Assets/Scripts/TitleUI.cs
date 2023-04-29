@@ -27,10 +27,8 @@ public class TitleUI : MonoBehaviour
     // 볼륨 슬라이더 
     public Slider[] volumeSliders;
     // 음소거 토글
-    public Toggle[] muteToggles;
-    bool isMuteMaster;
-    bool isMuteMusic;
-    bool isMuteSfx;
+    //public Toggle[] muteToggles;
+
 
     // 게임 스타트를 누르면 스테이지 선택 씬으로 넘어감
     // 스테이지 선택씬의 이름을 담는 변수 
@@ -40,31 +38,30 @@ public class TitleUI : MonoBehaviour
     void Awake()
     {
         // 해상도 설정 불러오기 
-        // PlayerPrefs.SetInt("screen rex index", resolutionNum);
         resolutionNum = PlayerPrefs.GetInt("screen res index");
-        // PlayerPrefs.SetInt("WindowMode", ((isWindow) ? 1 : 0));
+
         isWindow = (PlayerPrefs.GetInt("WindowMode") == 1) ? true : false;
-
         windowModeToggle.isOn = isWindow;
+    }
 
+    void Start()
+    {
         // 볼륨 설정 불러오기
         volumeSliders[0].value = AudioManager.instance.masterVolumePercent;
         volumeSliders[1].value = AudioManager.instance.musicVolumePercent;
         volumeSliders[2].value = AudioManager.instance.sfxVolumePercent;
 
-        muteToggles[0].isOn = isMuteMaster;
-        muteToggles[1].isOn = isMuteMusic;
-        muteToggles[2].isOn = isMuteSfx;
-    }
+        //muteToggles[0].isOn = AudioManager.instance.isMuteMaster;
+        //muteToggles[1].isOn = AudioManager.instance.isMuteMusic;
+        //muteToggles[2].isOn = AudioManager.instance.isMuteSfx;
 
-    void Start()
-    {
+        InitResolutionDropdown();
+
         // 옵션 패널숨기기
         options.SetActive(false);
-        InitResolutionDropdown();
     }
 
-    // 해상도 드롭다운의 값을 모니터 지원 해상도 값 목록으로 초기화해주는 함/
+    // 해상도 드롭다운의 값을 모니터 지원 해상도 값 목록으로 초기화해주는 함수 
     void InitResolutionDropdown()
     {
 
@@ -178,10 +175,12 @@ public class TitleUI : MonoBehaviour
     }
 
     // 음소거 토글
+    /*
     public void MuteMaster(bool masterMute)
     {
 
     }
+    */
 
     // 오른쪽 아래 확인 버튼
     public void OnClick_Agree()
