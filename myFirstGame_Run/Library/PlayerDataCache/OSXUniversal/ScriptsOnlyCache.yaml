@@ -77,7 +77,7 @@ ScriptsOnlyBuild:
     methodName: SetSfxVolume
   - assembly: Assembly-CSharp
     fullTypeName: TitleUI
-    methodName: DropboxOptionChange
+    methodName: SetScreenResolution
   - assembly: Assembly-CSharp
     fullTypeName: TitleUI
     methodName: OnClick_Start
@@ -87,6 +87,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: TitleUI
     methodName: SetMusicVolume
+  - assembly: Assembly-CSharp
+    fullTypeName: TitleUI
+    methodName: SetFullscreen
   - assembly: Assembly-CSharp
     fullTypeName: TitleUI
     methodName: OnClick_Options
