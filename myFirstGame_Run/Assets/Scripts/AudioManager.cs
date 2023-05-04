@@ -13,9 +13,12 @@ public class AudioManager : MonoBehaviour
 	public float sfxVolumePercent { get; private set; }
 	public float musicVolumePercent { get; private set; }
 
-	AudioSource sfx2DSource; // 2D로 재생할 효과음 
+	public bool isMuteMaster;
+	public bool isMuteMusic;
+	public bool isMuteSfx;
+
+	AudioSource sfx2DSource; // 2D로 재생할 효과음
 	AudioSource backgorundMusic;
-	//int activeMusicSourceIndex;
 
 	public static AudioManager instance;
 
@@ -23,6 +26,7 @@ public class AudioManager : MonoBehaviour
 	Transform playerT;
 
 	SoundLibrary library;
+	//TitleUI title;
 
 	void Awake()
 	{
@@ -37,6 +41,7 @@ public class AudioManager : MonoBehaviour
 			DontDestroyOnLoad(gameObject);
 
 			library = GetComponent<SoundLibrary>();
+			//title = GetComponent<TitleUI>();
 			// 배경음악 GameObject
 			GameObject newbackgorundMusic = new GameObject("backgorund source");
 			backgorundMusic = newbackgorundMusic.AddComponent<AudioSource>();
@@ -55,6 +60,12 @@ public class AudioManager : MonoBehaviour
 			masterVolumePercent = PlayerPrefs.GetFloat("master vol", 1);
 			sfxVolumePercent = PlayerPrefs.GetFloat("sfx vol", 1);
 			musicVolumePercent = PlayerPrefs.GetFloat("music vol", 1);
+
+			// mute 설정 불러오기
+			isMuteMaster = (PlayerPrefs.GetInt("master mute") == 1) ? true : false;
+			isMuteMusic = (PlayerPrefs.GetInt("master mute") == 1) ? true : false;
+			isMuteSfx = (PlayerPrefs.GetInt("master mute") == 1) ? true : false;
+
 		}
 	}
 
@@ -89,37 +100,38 @@ public class AudioManager : MonoBehaviour
 		PlayerPrefs.Save();
 	}
 
-	// 뮤트 토글이랑 연결해야 함
-	// 아닌가 ... setVolume(float 0, AudioChannel channel) 뭐 이런 식으로 해야하나
-	/*
-	public void MuteVolume(bool isMute, AudioChannel channel)
-    {
+	public void SetMute (bool isMute, AudioChannel channel)
+	{
 		switch (channel)
 		{
 			case AudioChannel.Master:
-				// Mute 면 AudioListener 0, 아니면 1
-				if(isMute) AudioListener.volume = 0;
-				else AudioListener.volume = 1;
+				isMuteMaster = isMute;
+				if (isMuteMaster) masterVolumePercent = 0;
+				//else masterVolumePercent = title.volumeSliders[0].value;
 				break;
 			case AudioChannel.Sfx:
-				// SoundLibrary에 함수 만들어서 효과음 안 들리게 설정하기 
+				isMuteSfx = isMute;
+				if (isMuteSfx) sfxVolumePercent = 0;
+				//else sfxVolumePercent = title.volumeSliders[2].value;
 				break;
 			case AudioChannel.Music:
-				//MusicManager에 함수 만들어서 배경음악만 안 들릴 수 있게 설정하기 
+				isMuteMusic = isMute;
+				if (isMuteMusic) musicVolumePercent = 0;
+				//else musicVolumePercent = title.volumeSliders[1].value;
 				break;
 		}
+
+		PlayerPrefs.SetInt("master mute", ((isMuteMaster) ? 1 : 0));
+		PlayerPrefs.SetInt("sfx mute", ((isMuteSfx) ? 1 : 0));
+		PlayerPrefs.SetInt("music mute", ((isMuteMusic) ? 1 : 0));
+		PlayerPrefs.Save();
 	}
-	*/
 
 	// 배경음악 재생
-	//public void PlayMusic(AudioClip clip, float fadeDuration = 1)
 	public void PlayMusic(AudioClip clip)
 	{
-		//activeMusicSourceIndex = 1 - activeMusicSourceIndex;
 		backgorundMusic.clip = clip;
 		backgorundMusic.Play();
-
-		//StartCoroutine(AnimateMusicCrossfade(fadeDuration));
 	}
 
 	// AudioClip을 매개변수로 PlaySound()
@@ -150,22 +162,4 @@ public class AudioManager : MonoBehaviour
 		backgorundMusic.Stop();
 	}
 
-	// 뮤트 토글이 체크 되었을 때 해당 소리가 안 들리도록 만드는 함수
-
-
-	// AnimateMusicCrossfade 기능이 정확히 어떤 건지 모르겠어서 일단 주석처리
-	/*
-	IEnumerator AnimateMusicCrossfade(float duration)
-	{
-		float percent = 0;
-
-		while (percent < 1)
-		{
-			percent += Time.deltaTime * 1 / duration;
-			musicSources[activeMusicSourceIndex].volume = Mathf.Lerp(0, musicVolumePercent * masterVolumePercent, percent);
-			musicSources[1 - activeMusicSourceIndex].volume = Mathf.Lerp(musicVolumePercent * masterVolumePercent, 0, percent);
-			yield return null;
-		}
-	}
-	*/
 }

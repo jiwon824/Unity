@@ -27,7 +27,7 @@ public class TitleUI : MonoBehaviour
     // 볼륨 슬라이더 
     public Slider[] volumeSliders;
     // 음소거 토글
-    //public Toggle[] muteToggles;
+    public Toggle[] muteToggles;
 
 
     // 게임 스타트를 누르면 스테이지 선택 씬으로 넘어감
@@ -37,7 +37,7 @@ public class TitleUI : MonoBehaviour
 
     void Awake()
     {
-        // 해상도 드롭다운 옵션 초기
+        // 해상도 드롭다운 옵션 초기
         InitResolutionDropdown();
         // 해상도 설정 불러오기 
         resolutionNum = PlayerPrefs.GetInt("screen res index");
@@ -46,9 +46,6 @@ public class TitleUI : MonoBehaviour
         isWindow = (PlayerPrefs.GetInt("WindowMode") == 1) ? true : false;
         windowModeToggle.isOn = isWindow;
 
-        // 현재 전체화면인지 아닌지 확인 후 토글 버튼의 체크 버튼을 초기화
-        // 창모드라면 창모드 토글에 체크
-        //windowModeToggle.isOn = Screen.fullScreenMode.Equals(FullScreenMode.Windowed) ? true : false;
     }
 
     void Start()
@@ -62,10 +59,10 @@ public class TitleUI : MonoBehaviour
         volumeSliders[1].value = AudioManager.instance.musicVolumePercent;
         volumeSliders[2].value = AudioManager.instance.sfxVolumePercent;
 
-        // 뮤트 여부 불러오/
-        //muteToggles[0].isOn = AudioManager.instance.isMuteMaster;
-        //muteToggles[1].isOn = AudioManager.instance.isMuteMusic;
-        //muteToggles[2].isOn = AudioManager.instance.isMuteSfx;
+        // 뮤트 여부 불러오기 
+        muteToggles[0].isOn = AudioManager.instance.isMuteMaster;
+        muteToggles[1].isOn = AudioManager.instance.isMuteMusic;
+        muteToggles[2].isOn = AudioManager.instance.isMuteSfx;
     }
 
     // 해상도 드롭다운의 값을 모니터 지원 해상도 값 목록으로 초기화해주는 함수 
@@ -77,15 +74,15 @@ public class TitleUI : MonoBehaviour
         resolutionDropdown.options.Clear();
 
         // 모니터가 지원하는 해상도는 Screen.resolutions라는 배열에 들어있다.
-            // AddRange함수를 이용해서 지원하는 함수를 전부 리스트에 넣을 수 있다.
-            // resolutions.AddRange(Screen.resolutions);
+        // AddRange함수를 이용해서 지원하는 함수를 전부 리스트에 넣을 수 있다.
+        // resolutions.AddRange(Screen.resolutions);
         // 화면재생빈도가 60인 것만 리스트에 넣어주기
         for (int i = 0; i < Screen.resolutions.Length; i++)
         {
             if (Screen.resolutions[i].refreshRate == 60)
                 resolutions.Add(Screen.resolutions[i]);
         }
-        
+
         int optionNum = 0;
 
         // 위에서 지원하는 해상도를 resolutions 리스트에 넣었다 
@@ -101,7 +98,7 @@ public class TitleUI : MonoBehaviour
 
             // 처음 실행하면 Dropdown에 선택된 값이 초기화되어 있지 않으니
             // 현재 해상도의 값과 해상도 목록을 비교해서 Dropdown에 value값을 변경
-            if (item.width ==Screen.width && item.height == Screen.height)
+            if (item.width == Screen.width && item.height == Screen.height)
             {
                 resolutionDropdown.value = optionNum;
             }
@@ -145,11 +142,12 @@ public class TitleUI : MonoBehaviour
 
 
     //OptionUI Input
-
-
     // Dropbox의 value값을 이용하여 선택된 해상도를 적용할 수 있게 하는 메서드
     public void SetScreenResolution(int x)
     {
+        // select index x at Resolutoin Dropdown
+        // parm:
+        
         resolutionNum = x;
 
         // Screen.SetResolution(너비, 높이, 전체화면, 화면재생빈도)
@@ -164,7 +162,10 @@ public class TitleUI : MonoBehaviour
 
     }
 
-    // 창모드 토글 버튼
+    /// <summary>
+    /// if check to "창모드" Toggle change ScreenMode
+    /// </summary>
+    /// <param name="isWindowOn">Checked toggle means Windowmode</param>
     public void SetFullscreen(bool isWindowOn)
     {
         // 버튼이 클릭되면 isWindow 값을 변경
@@ -180,8 +181,8 @@ public class TitleUI : MonoBehaviour
         // 창모드면 선택한 해상도+창모드로 설정
         if (isWindow)
         {
-            // Screen.SetResolution(너비, 높이, 전체화면, 화면재생빈도)
             SetScreenResolution(resolutionNum);
+            // Screen.SetResolution(너비, 높이, 전체화면, 화면재생빈도)
             //Screen.SetResolution(resolutions[resolutionNum].width,
             //resolutions[resolutionNum].height,
             //false);
@@ -196,14 +197,13 @@ public class TitleUI : MonoBehaviour
             // 드롭다운에 표시되는 값도 최대 해상도 값으로 변경 
             resolutionDropdown.value = resolutions.Count - 1;
         }
-            
-            
 
-        // isWindow가 True면 창모드 1저장 거짓이면 0저
+        // isWindow가 True면 창모드 1저장 거짓이면 0저장 
         PlayerPrefs.SetInt("WindowMode", ((isWindow) ? 1 : 0));
         PlayerPrefs.Save();
     }
 
+    // 볼륨 관련 설
     // 볼륨 조절 슬라이더 
     public void SetMasterVolume(float value)
     {
@@ -221,12 +221,29 @@ public class TitleUI : MonoBehaviour
     }
 
     // 음소거 토글
-    /*
-    public void MuteMaster(bool masterMute)
+    public void MuteMaster(bool isMute)
     {
-
+        AudioManager.instance.SetMute(isMute, AudioManager.AudioChannel.Master);
+        if (isMute) volumeSliders[0].value = 0;
+        //else volumeSliders[0].value = AudioManager.instance.masterVolumePercent;
+        volumeSliders[0].interactable = !isMute;
     }
-    */
+
+    public void MuteMusic (bool isMute)
+    {
+        AudioManager.instance.SetMute(isMute, AudioManager.AudioChannel.Music);
+        if (isMute) volumeSliders[1].value = 0;
+        //else volumeSliders[1].value = AudioManager.instance.musicVolumePercent;
+        volumeSliders[1].interactable = !isMute;
+    }
+
+    public void MuteSfx (bool isMute)
+    {
+        AudioManager.instance.SetMute(isMute, AudioManager.AudioChannel.Sfx);
+        if (isMute) volumeSliders[2].value = 0;
+        //else volumeSliders[2].value = AudioManager.instance.sfxVolumePercent;
+        volumeSliders[2].interactable = !isMute;
+    }
 
     // 오른쪽 아래 확인 버튼
     public void OnClick_Agree()

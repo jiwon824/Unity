@@ -2397,7 +2397,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 906108980}
+        m_TargetAssemblyTypeName: TitleUI, Assembly-CSharp
+        m_MethodName: MuteMusic
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &725522389
 GameObject:
@@ -2786,6 +2798,10 @@ MonoBehaviour:
   - {fileID: 85592563}
   - {fileID: 1227118039}
   - {fileID: 302503001}
+  muteToggles:
+  - {fileID: 1057755974}
+  - {fileID: 710885568}
+  - {fileID: 1547511350}
   selectStage: Stage00
 --- !u!4 &906108981
 Transform:
@@ -3047,7 +3063,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 906108980}
+        m_TargetAssemblyTypeName: TitleUI, Assembly-CSharp
+        m_MethodName: MuteMaster
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1097975072
 GameObject:
@@ -3616,6 +3644,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 695945238511591377, guid: 0fe39e952b6094381b9382c1f60883bd, type: 3}
+      propertyPath: isMuteMaster
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 695945238511591379, guid: 0fe39e952b6094381b9382c1f60883bd, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -4217,7 +4249,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 906108980}
+        m_TargetAssemblyTypeName: TitleUI, Assembly-CSharp
+        m_MethodName: MuteSfx
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1559111203
 GameObject:
